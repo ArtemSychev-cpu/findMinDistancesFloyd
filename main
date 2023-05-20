@@ -1,0 +1,37 @@
+void Graph::findMinDistancesFloyd()
+{
+  for (size_t i = 0; i < SIZE; i++)
+  {
+    for (size_t j = 0; j < SIZE; j++)
+    {
+      if (i == j) { connectionsMatrix_[i][j] = 0; }
+      else 
+      {
+        if (!edgeExists(i, j)) { connectionsMatrix_[i][j] = VERYBIGNUMBER; }
+        else { connectionsMatrix_[i][j] = adjacencyMatrix_[i][j]; }
+      }
+    }
+  }
+
+
+  for (size_t k = 0; k < vertexesCount_; k++)
+  {
+    size_t ck = vertexes_[k].number_;
+    for (size_t i = 0; i < vertexesCount_; i++)
+    {
+      if (i == k)
+        continue;
+      size_t ci = vertexes_[i].number_;
+      for (size_t j = 0; j < vertexesCount_; j++)
+      {
+        if (j == k)
+          continue;
+        size_t cj = vertexes_[j].number_;
+        if (connectionsMatrix_[ci][ck] + connectionsMatrix_[ck][cj] < connectionsMatrix_[ci][cj]) 
+        {               
+          connectionsMatrix_[ci][cj] = connectionsMatrix_[ci][ck] + connectionsMatrix_[ck][cj];
+        }
+      }
+    }
+  }
+}
